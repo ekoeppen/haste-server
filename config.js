@@ -13,7 +13,7 @@
 
   "logging": [
     {
-      "level": "verbose",
+      "level": "info",
       "type": "Console",
       "colorize": true
     }
@@ -24,7 +24,7 @@
   },
 
   "storage": {
-    "type": "redis",
+    "type": "file",
     "host": "0.0.0.0",
     "port": 6379,
     "db": 2,

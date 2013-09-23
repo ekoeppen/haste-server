@@ -31,6 +31,9 @@ haste_document.prototype.load = function(key, callback, lang) {
         else if (lang) {
           high = hljs.highlight(lang, res.data);
         }
+        else if (res.data.substring(160).indexOf('diff') > 0) {
+          high = hljs.highlight('diff', res.data);
+        }
         else {
           high = hljs.highlightAuto(res.data);
         }
@@ -52,7 +55,7 @@ haste_document.prototype.load = function(key, callback, lang) {
 };
 
 // Save this document to the server and lock it here
-haste_document.prototype.save = function(data, callback) {
+haste_document.prototype.save = function(title, data, callback) {
   if (this.locked) {
     return false;
   }
@@ -63,6 +66,9 @@ haste_document.prototype.save = function(data, callback) {
     data: data,
     dataType: 'json',
     contentType: 'application/json; charset=utf-8',
+    headers: {
+      'title': title
+    },
     success: function(res) {
       _this.locked = true;
       _this.key = res.key;
@@ -91,16 +97,41 @@ var haste = function(appName, options) {
   this.appName = appName;
   this.$textarea = $('textarea');
   this.$box = $('#box');
+  this.$titlebox = $('#titlebox');
+  this.$doctitle = $('#doctitle');
   this.$code = $('#box code');
   this.$linenos = $('#linenos');
+  this.$documents = $('#documents');
   this.options = options;
   this.configureShortcuts();
   this.configureButtons();
-  // If twitter is disabled, hide the button
-  if (!options.twitter) {
-    $('#box2 .twitter').hide();
-  }
+  this.getDocuments();
 };
+
+// Get all documents
+
+haste.prototype.getDocuments = function() {
+  var _this = this;
+  $.ajax('/documents/*', {
+    type: 'get',
+    dataType: 'json',
+    success: function(res) {
+      var list = "";
+      _this.$documents.empty();
+      for (var i in res.data) {
+        list += "<div href='" + res.data[i] + "'>" + res.data[i] + "</div>";
+      }
+      _this.$documents.append(list);
+      _this.$documents.children("div").click(function() {
+        var key = $(this).attr('href');
+        _this.loadDocument(key);
+        window.history.pushState(null, null, key);
+      });
+    },
+    error: function(err) {
+    }
+  });
+}
 
 // Set the page title - include the appName
 haste.prototype.setTitle = function(ext) {
@@ -152,9 +183,9 @@ haste.prototype.newDocument = function(hideHistory) {
   }
   this.setTitle();
   this.lightKey();
-  this.$textarea.val('').show('fast', function() {
-    this.focus();
-  });
+  this.$textarea.val('').show();
+  this.$titlebox.show();
+  this.$doctitle.val('').focus();
   this.removeLineNumbers();
 };
 
@@ -214,7 +245,7 @@ haste.prototype.loadDocument = function(key) {
       _this.setTitle(ret.key);
       _this.fullKey();
       _this.$textarea.val('').hide();
-      _this.$box.show().focus();
+      _this.$box.show();
       _this.addLineNumbers(ret.lineCount);
     }
     else {
@@ -235,7 +266,7 @@ haste.prototype.duplicateDocument = function() {
 // Lock the current document
 haste.prototype.lockDocument = function() {
   var _this = this;
-  this.doc.save(this.$textarea.val(), function(err, ret) {
+  this.doc.save(this.$doctitle.val(), this.$textarea.val(), function(err, ret) {
     if (err) {
       _this.showMessage(err.message, 'error');
     }
@@ -249,8 +280,9 @@ haste.prototype.lockDocument = function() {
       window.history.pushState(null, _this.appName + '-' + ret.key, file);
       _this.fullKey();
       _this.$textarea.val('').hide();
-      _this.$box.show().focus();
+      _this.$box.show();
       _this.addLineNumbers(ret.lineCount);
+      _this.getDocuments();
     }
   });
 };
@@ -268,6 +300,7 @@ haste.prototype.configureButtons = function() {
       action: function() {
         if (_this.$textarea.val().replace(/^\s+|\s+$/g, '') !== '') {
           _this.lockDocument();
+          _this.$titlebox.hide();
         }
       }
     },
@@ -302,17 +335,6 @@ haste.prototype.configureButtons = function() {
       shortcutDescription: 'control + shift + r',
       action: function() {
         window.location.href = '/raw/' + _this.doc.key;
-      }
-    },
-    {
-      $where: $('#box2 .twitter'),
-      label: 'Twitter',
-      shortcut: function(evt) {
-        return _this.options.twitter && _this.doc.locked && evt.shiftKey && evt.ctrlKey && evt.keyCode == 84;
-      },
-      shortcutDescription: 'control + shift + t',
-      action: function() {
-        window.open('https://twitter.com/share?url=' + encodeURI(window.location.href));
       }
     }
   ];

@@ -4,7 +4,7 @@
 
 		<title>hastebin</title>
 
-		<link rel="stylesheet" type="text/css" href="solarized_dark.css"/>
+		<link rel="stylesheet" type="text/css" href="solarized_light.css"/>
 		<link rel="stylesheet" type="text/css" href="application.css"/>
 
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -41,39 +41,39 @@
 	<body>
 		<ul id="messages"></ul>
 
-		<div id="key">
-		  <div id="pointer" style="display:none;"></div>
-			<div id="box1">
-				<a href="/about.md" class="logo"></a>
-			</div>
-			<div id="box2">
-				<div class="save function"></div>
-				<div class="new function"></div>
-				<div class="duplicate function"></div>
-				<div class="raw function"></div>
-				<div class="twitter function"></div>
-			</div>
-			<div id="box3" style="display:none;">
-				<div class="label"></div>
-				<div class="shortcut"></div>
-			</div>
-		</div>
-
-		<div id="linenos"></div>
-		<pre id="box" style="display:none;" tabindex="0"><code></code></pre>
-		<textarea spellcheck="false" style="display:none;"></textarea>
-
-		<script type="text/javascript">
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-27329119-1']);
-			_gaq.push(['_trackPageview']);
-			(function() {
-				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
-		</script>
-
+		<table>
+			<tr>
+				<td/>
+				<td>
+					<div id="titlebox" style="display:none;">
+						<input id='doctitle'/>
+					</div>
+				</td>
+				<td>
+					<div id="key">
+						<div id="pointer" style="display:none;"></div>
+						<div id="box2">
+							<div class="save function"></div>
+							<div class="new function"></div>
+							<div class="duplicate function"></div>
+							<div class="raw function"></div>
+							<div class="twitter function"></div>
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td id="column1">
+					<div id="linenos"></div>
+				</td>
+				<td id="column2">
+					<pre id="box" style="display:none;" tabindex="0"><code></code></pre>
+					<textarea spellcheck="false" style="display:none;"></textarea>
+				</td>
+				<td id="column3">
+					<div id='documents'></div>
+				</td>
+			</tr>
+		</table>
 	</body>
-
 </html>

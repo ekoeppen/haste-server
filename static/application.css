@@ -4,6 +4,28 @@ body {
 	margin: 0px;
 }
 
+/* table layout */
+
+td {
+	vertical-align: top
+}
+
+table {
+	width: 100%
+}
+
+#column1 {
+	width: 30px;
+}
+
+#column2 {
+	width: 100%;
+}
+
+#column3 {
+	width: 200px;
+}
+
 /* textarea */
 
 textarea {
@@ -19,13 +41,36 @@ textarea {
 	font-size: 13px;
 }
 
+/* input */
+
+input {
+	background: #073642;
+	border: 0;
+	color: #fff;
+	padding: 2px;
+	font-family: monospace;
+	outline: none;
+	resize: none;
+	width: 100%;
+	font-size: 13px;
+}
+
+/* Documents */
+
+#documents {
+}
+
+#documents div {
+  color: #7d7d7d;
+	font-size: 13px;
+	padding-bottom: 2px;
+	cursor: pointer;
+}
+
 /* the line numbers */
 
 #linenos {
   color: #7d7d7d;
-	z-index: -1000;
-	position: absolute;
-	top: 20px;
 	left: 0px;
 	width: 30px; /* 30 to get 20 away from box */
 	font-size: 13px;
@@ -33,9 +78,9 @@ textarea {
 	text-align: right;
 }
 
-/* code box when locked */
+/* title */
 
-#box {
+#title {
 	padding: 0px;
 	margin: 0px;
 	width: 100%;
@@ -43,6 +88,22 @@ textarea {
 	outline: none;
 	font-size: 13px;
 	padding-right: 360px;
+}
+
+#title code {
+	padding: 0px;
+	background: transparent !important; /* don't hide hastebox */
+}
+
+/* code box when locked */
+
+#box {
+	padding: 0px;
+	margin: 0px;
+	width: 90%;
+	border: 0px;
+	outline: none;
+	font-size: 13px;
 }
 
 #box code {
@@ -53,10 +114,7 @@ textarea {
 /* key */
 
 #key {
-	position: fixed;
-	top: 0px;
-	right: 0px;
-	z-index: +1000; /* watch out */
+	width: 200px;
 }
 
 #box1 {
