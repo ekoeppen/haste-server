@@ -16,7 +16,7 @@ haste_document.prototype.htmlEscape = function(s) {
 // Get this document from the server and lock it here
 haste_document.prototype.load = function(key, callback, lang) {
   var _this = this;
-  $.ajax('/documents/' + key, {
+  $.ajax('pastes.php?key=' + encodeURIComponent(key), {
     type: 'get',
     dataType: 'json',
     success: function(res) {
@@ -61,7 +61,7 @@ haste_document.prototype.save = function(title, data, callback) {
   }
   this.data = data;
   var _this = this;
-  $.ajax('/documents', {
+  $.ajax('pastes.php', {
     type: 'post',
     data: data,
     dataType: 'json',
@@ -112,7 +112,7 @@ var haste = function(appName, options) {
 
 haste.prototype.getDocuments = function() {
   var _this = this;
-  $.ajax('/documents/*', {
+  $.ajax('pastes.php?key=*', {
     type: 'get',
     dataType: 'json',
     success: function(res) {
