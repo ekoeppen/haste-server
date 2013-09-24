@@ -112,7 +112,7 @@ var haste = function(appName, options) {
 
 haste.prototype.getDocuments = function() {
   var _this = this;
-  $.ajax('pastes.php?key=*', {
+  $.ajax('pastes.php?key=%2f', {
     type: 'get',
     dataType: 'json',
     success: function(res) {
@@ -179,7 +179,7 @@ haste.prototype.newDocument = function(hideHistory) {
   this.$box.hide();
   this.doc = new haste_document();
   if (!hideHistory) {
-    window.history.pushState(null, this.appName, '/');
+    window.history.pushState(null, this.appName, "");
   }
   this.setTitle();
   this.lightKey();

@@ -19,7 +19,7 @@
 			var handlePop = function(evt) {
 				var path = evt.target.location.pathname;
 				if (path === '/') { app.newDocument(true); }
-				else { app.loadDocument(path.substring(1, path.length)); }
+				else { app.loadDocument(path.substring(path.lastIndexOf('/'), path.length)); }
 			};
 			// Set up the pop state to handle loads, skipping the first load
 			// to make chrome behave like others:
@@ -31,7 +31,7 @@
 			}, 1000);
 			// Construct app and load initial path
 			$(function() {
-				app = new haste('hastebin', { twitter: true });
+				app = new haste('hastebin', { twitter: false });
 				handlePop({ target: window });
 			});
 		</script>
