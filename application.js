@@ -112,7 +112,7 @@ var haste = function(appName, options) {
 
 haste.prototype.getDocuments = function() {
   var _this = this;
-  $.ajax('pastes.php?key=%2f', {
+  $.ajax('pastes.php?key=%2A', {
     type: 'get',
     dataType: 'json',
     success: function(res) {
@@ -239,7 +239,7 @@ haste.prototype.loadDocument = function(key) {
   // Ask for what we want
   var _this = this;
   _this.doc = new haste_document();
-  _this.doc.load(parts[0], function(ret) {
+  _this.doc.load(key, function(ret) {
     if (ret) {
       _this.$code.html(ret.value);
       _this.setTitle(ret.key);
@@ -334,7 +334,7 @@ haste.prototype.configureButtons = function() {
       },
       shortcutDescription: 'control + shift + r',
       action: function() {
-        window.location.href = '/raw/' + _this.doc.key;
+        window.location.href = '/haste-server/documents/' + _this.doc.key;
       }
     }
   ];

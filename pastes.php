@@ -13,7 +13,7 @@ function listdir_by_date($path) {
 $key = $_GET['key'];
 $data = "";
 
-if ($key ==  '*') {
+if ($key == '*') {
 	$data = listdir_by_date('documents');
 } else  {
 	$file = 'documents/' . $key;
