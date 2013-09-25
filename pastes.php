@@ -10,17 +10,24 @@ function listdir_by_date($path) {
 	return $file_array;
 }
 
-$key = $_GET['key'];
-$data = "";
+if (isset($_GET['key'])) {
+	$key = $_GET['key'];
+	$data = "";
 
-if ($key == '*') {
-	$data = listdir_by_date('documents');
-} else  {
-	$file = 'documents/' . $key;
-	if (file_exists($file)) {
-		$data = file_get_contents($file);
+	if ($key == '*') {
+		$data = listdir_by_date('pastes');
+	} else  {
+		$file = 'pastes/' . $key;
+		if (file_exists($file)) {
+			$data = file_get_contents($file);
+		}
 	}
+	echo json_encode(array('data' => $data));
+} else {
+	$key = str_replace(array('/', '.', ':'), "_", $_SERVER['HTTP_TITLE']);
+	$data = file_get_contents("php://input");
+	file_put_contents('documents/' . $key, $data);
+	echo json_encode(array('key' => $key));
 }
-echo json_encode(array('data' => $data));
 
 ?>

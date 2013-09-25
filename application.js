@@ -125,7 +125,7 @@ haste.prototype.getDocuments = function() {
       _this.$documents.children("div").click(function() {
         var key = $(this).attr('href');
         _this.loadDocument(key);
-        window.history.pushState(null, null, key);
+        window.history.pushState(null, null, "/haste-server/" + key);
       });
     },
     error: function(err) {
@@ -179,7 +179,7 @@ haste.prototype.newDocument = function(hideHistory) {
   this.$box.hide();
   this.doc = new haste_document();
   if (!hideHistory) {
-    window.history.pushState(null, this.appName, "");
+    window.history.pushState(null, this.appName, "/haste-server/");
   }
   this.setTitle();
   this.lightKey();
@@ -273,11 +273,7 @@ haste.prototype.lockDocument = function() {
     else if (ret) {
       _this.$code.html(ret.value);
       _this.setTitle(ret.key);
-      var file = '/' + ret.key;
-      if (ret.language) {
-        file += '.' + _this.lookupExtensionByType(ret.language);
-      }
-      window.history.pushState(null, _this.appName + '-' + ret.key, file);
+      window.history.pushState(null, _this.appName + '-' + ret.key, "/haste-server/" + ret.key);
       _this.fullKey();
       _this.$textarea.val('').hide();
       _this.$box.show();
