@@ -125,7 +125,7 @@ haste.prototype.getDocuments = function() {
       _this.$documents.children("div").click(function() {
         var key = $(this).attr('href');
         _this.loadDocument(key);
-        window.history.pushState(null, null, "/haste-server/" + key);
+        window.history.pushState(null, null, "/haste-server/?" + key);
       });
     },
     error: function(err) {
@@ -273,7 +273,7 @@ haste.prototype.lockDocument = function() {
     else if (ret) {
       _this.$code.html(ret.value);
       _this.setTitle(ret.key);
-      window.history.pushState(null, _this.appName + '-' + ret.key, "/haste-server/" + ret.key);
+      window.history.pushState(null, _this.appName + '-' + ret.key, "/haste-server/?" + ret.key);
       _this.fullKey();
       _this.$textarea.val('').hide();
       _this.$box.show();
@@ -330,7 +330,7 @@ haste.prototype.configureButtons = function() {
       },
       shortcutDescription: 'control + shift + r',
       action: function() {
-        window.location.href = '/haste-server/documents/' + _this.doc.key;
+        window.location.href = '/haste-server/pastes/' + _this.doc.key;
       }
     }
   ];

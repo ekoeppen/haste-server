@@ -24,7 +24,7 @@ if (isset($_GET['key'])) {
 	}
 	echo json_encode(array('data' => $data));
 } else {
-	$key = str_replace(array('/', '.', ':'), "_", $_SERVER['HTTP_TITLE']);
+	$key = str_replace(array('/', '.', ':', '?', '+'), "_", $_SERVER['HTTP_TITLE']);
 	$data = file_get_contents("php://input");
 	file_put_contents('pastes/' . $key, $data);
 	echo json_encode(array('key' => $key));
