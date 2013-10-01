@@ -2,6 +2,7 @@ body {
 	background: #002B36;
 	padding: 20px 50px;
 	margin: 0px;
+	font-family: Helvetica Neue, Arial, sans-serif;
 }
 
 /* table layout */
@@ -16,10 +17,6 @@ table {
 
 #column1 {
 	width: 30px;
-}
-
-#column2 {
-	width: 100%;
 }
 
 #column3 {
@@ -111,12 +108,6 @@ input {
 	background: transparent !important; /* don't hide hastebox */
 }
 
-/* key */
-
-#key {
-	width: 200px;
-}
-
 #box1 {
 	padding: 5px;
 	text-align: center;
@@ -124,49 +115,17 @@ input {
 }
 
 #box2 {
-	background: #08323c;
-	font-size: 0px;
-	padding: 0px 5px;
-}
-
-#box1 a.logo, #box1 a.logo:visited {
-	display: inline-block;
-	background: url(logo.png);
-	width: 126px;
-	height: 42px;
-}
-
-#box1 a.logo:hover {
-	background-position: 0 bottom;
+  color: #92a0a0;
+	font-size: 13px;
+	padding: 0px;
+	cursor: pointer;
 }
 
 #box2 .function {
-	background: url(function-icons.png);
-	width: 32px;
-	height: 37px;
-	display: inline-block;
-	position: relative;
 }
 
 #box2 .link embed {
 	vertical-align: bottom; /* fix for zeroClipboard style */
-}
-
-#box2 .function.enabled:hover {
-	cursor: hand;
-	cursor: pointer;
-}
-
-#pointer {
-	display: block;
-	height: 5px;
-	width: 10px;
-	background: url(hover-dropdown-tip.png);
-	bottom: 0px;
-	position: absolute;
-	margin: auto;
-	left: 0px;
-	right: 0px;
 }
 
 #box3, #messages li {
@@ -187,25 +146,17 @@ input {
 	font-weight: normal;
 }
 
-#box2 .function.save { background-position: -5px top; }
-#box2 .function.enabled.save { background-position: -5px center; }
-#box2 .function.enabled.save:hover { background-position: -5px bottom; }
+#box2 .function.save { color: #7d7d7d; }
+#box2 .function.enabled.save { color: #92a0a0; }
 
-#box2 .function.new { background-position: -42px top; }
-#box2 .function.enabled.new { background-position: -42px center; }
-#box2 .function.enabled.new:hover { background-position: -42px bottom; }
+#box2 .function.new { color: #7d7d7d; }
+#box2 .function.enabled.new { color: #92a0a0; }
 
-#box2 .function.duplicate { background-position: -79px top; }
-#box2 .function.enabled.duplicate { background-position: -79px center; }
-#box2 .function.enabled.duplicate:hover { background-position: -79px bottom; }
+#box2 .function.duplicate { color: #7d7d7d; }
+#box2 .function.enabled.duplicate { color: #92a0a0; }
 
-#box2 .function.raw { background-position: -116px top; }
-#box2 .function.enabled.raw { background-position: -116px center; }
-#box2 .function.enabled.raw:hover { background-position: -116px bottom; }
-
-#box2 .function.twitter { background-position: -153px top; }
-#box2 .function.enabled.twitter { background-position: -153px center; }
-#box2 .function.enabled.twitter:hover { background-position: -153px bottom; }
+#box2 .function.raw { color: #7d7d7d; }
+#box2 .function.enabled.raw { color: #92a0a0; }
 
 #messages {
 	position:fixed;
