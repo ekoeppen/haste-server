@@ -1,11 +1,11 @@
 ///// represents a single document
 
-var haste_document = function() {
+var pastry_document = function() {
   this.locked = false;
 };
 
 // Escapes HTML tag characters
-haste_document.prototype.htmlEscape = function(s) {
+pastry_document.prototype.htmlEscape = function(s) {
   return s
     .replace(/&/g, '&amp;')
     .replace(/>/g, '&gt;')
@@ -14,7 +14,7 @@ haste_document.prototype.htmlEscape = function(s) {
 };
 
 // Get this document from the server and lock it here
-haste_document.prototype.load = function(key, callback, lang) {
+pastry_document.prototype.load = function(key, callback, lang) {
   var _this = this;
   $.ajax('pastes.php?key=' + encodeURIComponent(key), {
     type: 'get',
@@ -55,7 +55,7 @@ haste_document.prototype.load = function(key, callback, lang) {
 };
 
 // Save this document to the server and lock it here
-haste_document.prototype.save = function(title, data, callback) {
+pastry_document.prototype.save = function(title, data, callback) {
   if (this.locked) {
     return false;
   }
@@ -93,7 +93,7 @@ haste_document.prototype.save = function(title, data, callback) {
 
 ///// represents the paste application
 
-var haste = function(appName, options) {
+var pastry = function(appName, options) {
   this.appName = appName;
   this.$textarea = $('textarea');
   this.$box = $('#box');
@@ -110,7 +110,7 @@ var haste = function(appName, options) {
 
 // Get all documents
 
-haste.prototype.getDocuments = function() {
+pastry.prototype.getDocuments = function() {
   var _this = this;
   $.ajax('pastes.php?key=%2A', {
     type: 'get',
@@ -134,13 +134,13 @@ haste.prototype.getDocuments = function() {
 }
 
 // Set the page title - include the appName
-haste.prototype.setTitle = function(ext) {
+pastry.prototype.setTitle = function(ext) {
   var title = ext ? this.appName + ' - ' + ext : this.appName;
   document.title = title;
 };
 
 // Show a message box
-haste.prototype.showMessage = function(msg, cls) {
+pastry.prototype.showMessage = function(msg, cls) {
   var msgBox = $('<li class="'+(cls || 'info')+'">'+msg+'</li>');
   $('#messages').prepend(msgBox);
   setTimeout(function() {
@@ -149,17 +149,17 @@ haste.prototype.showMessage = function(msg, cls) {
 };
 
 // Show the light key
-haste.prototype.lightKey = function() {
+pastry.prototype.lightKey = function() {
   this.configureKey(['new', 'save']);
 };
 
 // Show the full key
-haste.prototype.fullKey = function() {
+pastry.prototype.fullKey = function() {
   this.configureKey(['new', 'duplicate', 'raw']);
 };
 
 // Set the key up for certain things to be enabled
-haste.prototype.configureKey = function(enable) {
+pastry.prototype.configureKey = function(enable) {
   var $this, i = 0;
   $('#box2 .function').each(function() {
     $this = $(this);
@@ -175,9 +175,9 @@ haste.prototype.configureKey = function(enable) {
 
 // Remove the current document (if there is one)
 // and set up for a new one
-haste.prototype.newDocument = function(hideHistory) {
+pastry.prototype.newDocument = function(hideHistory) {
   this.$box.hide();
-  this.doc = new haste_document();
+  this.doc = new pastry_document();
   if (!hideHistory) {
     window.history.pushState(null, this.appName, window.location.pathname);
   }
@@ -193,7 +193,7 @@ haste.prototype.newDocument = function(hideHistory) {
 // Note: this list does not need to include anything that IS its extension,
 // due to the behavior of lookupTypeByExtension and lookupExtensionByType
 // Note: optimized for lookupTypeByExtension
-haste.extensionMap = {
+pastry.extensionMap = {
   rb: 'ruby', py: 'python', pl: 'perl', php: 'php', scala: 'scala', go: 'go',
   xml: 'xml', html: 'xml', htm: 'xml', css: 'css', js: 'javascript', vbs: 'vbscript',
   lua: 'lua', pas: 'delphi', java: 'java', cpp: 'cpp', cc: 'cpp', m: 'objectivec',
@@ -204,22 +204,22 @@ haste.extensionMap = {
 
 // Look up the extension preferred for a type
 // If not found, return the type itself - which we'll place as the extension
-haste.prototype.lookupExtensionByType = function(type) {
-  for (var key in haste.extensionMap) {
-    if (haste.extensionMap[key] === type) return key;
+pastry.prototype.lookupExtensionByType = function(type) {
+  for (var key in pastry.extensionMap) {
+    if (pastry.extensionMap[key] === type) return key;
   }
   return type;
 };
 
 // Look up the type for a given extension
 // If not found, return the extension - which we'll attempt to use as the type
-haste.prototype.lookupTypeByExtension = function(ext) {
-  return haste.extensionMap[ext] || ext;
+pastry.prototype.lookupTypeByExtension = function(ext) {
+  return pastry.extensionMap[ext] || ext;
 };
 
 // Add line numbers to the document
 // For the specified number of lines
-haste.prototype.addLineNumbers = function(lineCount) {
+pastry.prototype.addLineNumbers = function(lineCount) {
   var h = '';
   for (var i = 0; i < lineCount; i++) {
     h += (i + 1).toString() + '<br/>';
@@ -228,17 +228,17 @@ haste.prototype.addLineNumbers = function(lineCount) {
 };
 
 // Remove the line numbers
-haste.prototype.removeLineNumbers = function() {
+pastry.prototype.removeLineNumbers = function() {
   $('#linenos').html('&gt;');
 };
 
 // Load a document and show it
-haste.prototype.loadDocument = function(key) {
+pastry.prototype.loadDocument = function(key) {
   // Split the key up
   var parts = key.split('.', 2);
   // Ask for what we want
   var _this = this;
-  _this.doc = new haste_document();
+  _this.doc = new pastry_document();
   _this.doc.load(key, function(ret) {
     if (ret) {
       _this.$code.html(ret.value);
@@ -255,7 +255,7 @@ haste.prototype.loadDocument = function(key) {
 };
 
 // Duplicate the current document - only if locked
-haste.prototype.duplicateDocument = function() {
+pastry.prototype.duplicateDocument = function() {
   if (this.doc.locked) {
     var currentData = this.doc.data;
     this.newDocument();
@@ -264,7 +264,7 @@ haste.prototype.duplicateDocument = function() {
 };
 
 // Lock the current document
-haste.prototype.lockDocument = function() {
+pastry.prototype.lockDocument = function() {
   var _this = this;
   this.doc.save(this.$doctitle.val(), this.$textarea.val(), function(err, ret) {
     if (err) {
@@ -283,7 +283,7 @@ haste.prototype.lockDocument = function() {
   });
 };
 
-haste.prototype.configureButtons = function() {
+pastry.prototype.configureButtons = function() {
   var _this = this;
   this.buttons = [
     {
@@ -330,7 +330,7 @@ haste.prototype.configureButtons = function() {
       },
       shortcutDescription: 'control + shift + r',
       action: function() {
-        window.location.href = '/haste-server/pastes/' + _this.doc.key;
+        window.location.href = '/pastry/pastes/' + _this.doc.key;
       }
     }
   ];
@@ -339,7 +339,7 @@ haste.prototype.configureButtons = function() {
   }
 };
 
-haste.prototype.configureButton = function(options) {
+pastry.prototype.configureButton = function(options) {
   // Handle the click action
   options.$where.click(function(evt) {
     evt.preventDefault();
@@ -362,7 +362,7 @@ haste.prototype.configureButton = function(options) {
 };
 
 // Configure keyboard shortcuts for the textarea
-haste.prototype.configureShortcuts = function() {
+pastry.prototype.configureShortcuts = function() {
   var _this = this;
   $(document.body).keydown(function(evt) {
     var button;

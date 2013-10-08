@@ -95,7 +95,7 @@ input {
 
 #title code {
 	padding: 0px;
-	background: transparent !important; /* don't hide hastebox */
+	background: transparent !important;
 }
 
 /* code box when locked */
@@ -111,7 +111,7 @@ input {
 
 #box code {
 	padding: 0px;
-	background: transparent !important; /* don't hide hastebox */
+	background: transparent !important;
 }
 
 #box1 {
