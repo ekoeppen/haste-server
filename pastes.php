@@ -10,7 +10,8 @@ function listdir_by_date($path) {
 	return $file_array;
 }
 
-if (isset($_GET['key'])) {
+$method = $_SERVER['REQUEST_METHOD'];
+if ($method == 'GET') {
 	$key = $_GET['key'];
 	$data = "";
 
@@ -23,7 +24,17 @@ if (isset($_GET['key'])) {
 		}
 	}
 	echo json_encode(array('data' => $data));
-} else {
+} else if ($method == 'DELETE') {
+	$key = str_replace(array('/', '.', ':', '?', '+'), "_", $_GET['key']);
+	$data = "";
+
+	$file = 'pastes/' . $key;
+	if (file_exists($file)) {
+		$data = $file;
+		unlink($file);
+	}
+	echo json_encode(array('data' => $data));
+} else if ($method == 'POST') {
 	$key = str_replace(array('/', '.', ':', '?', '+'), "_", $_SERVER['HTTP_TITLE']);
 	$data = file_get_contents("php://input");
 	file_put_contents('pastes/' . $key, $data);

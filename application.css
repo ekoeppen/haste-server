@@ -162,6 +162,9 @@ input {
 #box2 .function.duplicate { color: #7d7d7d; }
 #box2 .function.enabled.duplicate { color: #92a0a0; }
 
+#box2 .function.delete { color: #7d7d7d; }
+#box2 .function.enabled.delete { color: #92a0a0; }
+
 #box2 .function.raw { color: #7d7d7d; }
 #box2 .function.enabled.raw { color: #92a0a0; }
 

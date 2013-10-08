@@ -91,6 +91,27 @@ pastry_document.prototype.save = function(title, data, callback) {
   });
 };
 
+// Delete this document from the server
+pastry_document.prototype.delete = function(callback) {
+  if (!this.locked) {
+    return false;
+  }
+  $.ajax('pastes.php?key=' + encodeURIComponent(this.key), {
+    type: 'delete',
+    success: function(res) {
+      callback(null);
+    },
+    error: function(res) {
+      try {
+        callback($.parseJSON(res.responseText));
+      }
+      catch (e) {
+        callback({message: 'Something went wrong!'});
+      }
+    }
+  });
+};
+
 ///// represents the paste application
 
 var pastry = function(appName, options) {
@@ -155,7 +176,7 @@ pastry.prototype.lightKey = function() {
 
 // Show the full key
 pastry.prototype.fullKey = function() {
-  this.configureKey(['new', 'duplicate', 'raw']);
+  this.configureKey(['new', 'duplicate', 'delete', 'raw']);
 };
 
 // Set the key up for certain things to be enabled
@@ -254,6 +275,22 @@ pastry.prototype.loadDocument = function(key) {
   }, this.lookupTypeByExtension(parts[1]));
 };
 
+// Delete the current document - only if locked
+pastry.prototype.deleteDocument = function() {
+  var _this = this;
+  if (this.doc.locked) {
+    this.doc.delete(function(err) {
+      if (!err) {
+        window.history.pushState(null, _this.appName, window.location.pathname);
+        _this.newDocument();
+        _this.getDocuments();
+      } else {
+        _this.showMessage(err.message, 'error');
+      }
+    });
+  }
+};
+
 // Duplicate the current document - only if locked
 pastry.prototype.duplicateDocument = function() {
   if (this.doc.locked) {
@@ -320,6 +357,13 @@ pastry.prototype.configureButtons = function() {
       shortcutDescription: 'control + d',
       action: function() {
         _this.duplicateDocument();
+      }
+    },
+    {
+      $where: $('#box2 .delete'),
+      label: 'Delete',
+      action: function() {
+        _this.deleteDocument();
       }
     },
     {
